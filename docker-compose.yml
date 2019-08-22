@@ -2,21 +2,79 @@
 version: '3'
 
 services:
+  # defining composer container service
+  composer:
+    container_name: composer
+    image: composer:latest
   # defining api container service
   laravel-api:
+    depends_on:
+      - mysql-db
+      - mongo-db
+    container_name: laravel-api
+    image: phone-check-cloud  
     build:
       context: '.'
-    image: phone-check-cloud  
-    container_name: laravel-api
     volumes:
       - .:/var/www/html
     ports:
       - 8000:80
+    restart: always
     networks:
       laravel-api-network:
         aliases:
           - lv-api-network
+  # defining mysql container service
+  mysql-db:
+    container_name: mysql-db
+    image: mysql:5.7
+    volumes:
+      - mysql_db_data:/var/lib/mysql
+      - ./run/dump/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 6033:3306
     restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: awais.dev
+      MYSQL_DATABASE: phone-check-cloud
+      MYSQL_USER: phone-check
+      MYSQL_PASSWORD: hK7y7w8xauE8tNhJ
+    networks:
+      mysql-db-network:
+        aliases:
+          - ms-db-network
+  # defining mongodb container service
+  mongo-db:
+    container_name: mongo-db
+    image: mongo
+    volumes:
+      - mongo_db_data:/data/db
+    ports:
+      - "27018:27017" 
+    restart: always
+    networks:
+      mongo-db-network:
+        aliases:
+          - m-db-network       
+  # defining phpmyadmin container service
+  phpmyadmin:
+    depends_on:
+      - mysql-db
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - '8080:80'
+    restart: always
+    environment:
+      PMA_HOST: mysql-db
+      # same as "MYSQL_ROOT_PASSWORD"
+      MYSQL_ROOT_PASSWORD: awais.dev
+    networks:
+      - mysql-db-network       
 networks:
   laravel-api-network:
-    # name: backend-network           
+  mysql-db-network:
+  mongo-db-network:
+volumes:
+  mysql_db_data:
+  mongo_db_data:
