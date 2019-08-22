@@ -1,0 +1,22 @@
+# version of docker compose
+version: '3'
+
+services:
+  # defining api container service
+  laravel-api:
+    build:
+      context: '.'
+    image: phone-check-cloud  
+    container_name: laravel-api
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 8000:80
+    networks:
+      laravel-api-network:
+        aliases:
+          - lv-api-network
+    restart: always
+networks:
+  laravel-api-network:
+    # name: backend-network           
