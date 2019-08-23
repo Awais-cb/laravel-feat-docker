@@ -57,4 +57,4 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY .env.example .env
 
 RUN bash -c 'echo -e **************************************************Installing project dependencies**************************************************\n'
-RUN sudo composer install && php artisan key:generate
+RUN composer install && php artisan key:generate
