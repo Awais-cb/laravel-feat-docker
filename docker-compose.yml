@@ -21,9 +21,7 @@ services:
       - 8000:80
     restart: always
     networks:
-      laravel-api-network:
-        aliases:
-          - lv-api-network
+      - backend
   # defining mysql container service
   mysql-db:
     container_name: mysql-db
@@ -37,12 +35,10 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: awais.dev
       MYSQL_DATABASE: phone-check-cloud
-      MYSQL_USER: phone-check
-      MYSQL_PASSWORD: hK7y7w8xauE8tNhJ
+      MYSQL_USER: pc_user
+      MYSQL_PASSWORD: pc_pass
     networks:
-      mysql-db-network:
-        aliases:
-          - ms-db-network
+      - backend
   # defining mongodb container service
   mongo-db:
     container_name: mongo-db
@@ -53,9 +49,7 @@ services:
       - "27018:27017" 
     restart: always
     networks:
-      mongo-db-network:
-        aliases:
-          - m-db-network       
+      - backend      
   # defining phpmyadmin container service
   phpmyadmin:
     depends_on:
@@ -70,11 +64,9 @@ services:
       # same as "MYSQL_ROOT_PASSWORD"
       MYSQL_ROOT_PASSWORD: awais.dev
     networks:
-      - mysql-db-network       
+      - backend      
 networks:
-  laravel-api-network:
-  mysql-db-network:
-  mongo-db-network:
+  backend:
 volumes:
   mysql_db_data:
   mongo_db_data:
