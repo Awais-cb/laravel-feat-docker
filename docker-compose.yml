@@ -63,7 +63,7 @@ services:
     container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin
     ports:
-      - '8080:80'
+      - '8001:80'
     restart: always
     environment:
       PMA_HOST: mysql-db
