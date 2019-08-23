@@ -21,7 +21,9 @@ services:
       - 8000:80
     restart: always
     networks:
-      - backend
+      backend:
+        aliases:
+          - phonecheckbackend  
   # defining mysql container service
   mysql-db:
     container_name: mysql-db
@@ -38,7 +40,9 @@ services:
       MYSQL_USER: pc_user
       MYSQL_PASSWORD: pc_pass
     networks:
-      - backend
+      backend:
+        aliases:
+          - phonecheckbackend
   # defining mongodb container service
   mongo-db:
     container_name: mongo-db
@@ -49,7 +53,9 @@ services:
       - "27018:27017" 
     restart: always
     networks:
-      - backend      
+      backend:
+        aliases:
+          - phonecheckbackend    
   # defining phpmyadmin container service
   phpmyadmin:
     depends_on:
@@ -64,7 +70,9 @@ services:
       # same as "MYSQL_ROOT_PASSWORD"
       MYSQL_ROOT_PASSWORD: awais.dev
     networks:
-      - backend      
+      backend:
+        aliases:
+          - phonecheckbackend
 networks:
   backend:
 volumes:
