@@ -52,8 +52,9 @@ RUN pecl install mongodb \
 
 
 RUN bash -c 'echo -e **************************************************Adding composer to container**************************************************\n'
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY .env.example .env
 
-
-# RUN bash -c 'echo -e **************************************************Installing project dependencies**************************************************\n'
-# RUN composer install && php artisan key:generate
+RUN bash -c 'echo -e **************************************************Installing project dependencies**************************************************\n'
+RUN sudo composer install && php artisan key:generate
