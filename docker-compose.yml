@@ -2,10 +2,6 @@
 version: '3'
 
 services:
-  # defining composer container service
-  composer:
-    container_name: composer
-    image: composer:latest
   # defining api container service
   laravel-api:
     depends_on:

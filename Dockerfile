@@ -51,10 +51,10 @@ RUN pecl install mongodb \
     && docker-php-ext-enable mongodb
 
 
-RUN bash -c 'echo -e **************************************************Adding composer to container**************************************************\n'
+RUN bash -c 'echo -e **************************************************Setting up composer in container**************************************************\n'
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-COPY .env.example .env
-
-RUN bash -c 'echo -e **************************************************Installing project dependencies**************************************************\n'
-RUN composer install && php artisan key:generate
+# COPY .env.example .env
+# COPY . /var/www/html
+# RUN cd /var/www/html
+# RUN composer install && php artisan key:generate
