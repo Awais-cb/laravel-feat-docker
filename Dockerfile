@@ -58,3 +58,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # COPY . /var/www/html
 # RUN cd /var/www/html
 # RUN composer install && php artisan key:generate
+RUN chown -R www-data:www-data /var/www
